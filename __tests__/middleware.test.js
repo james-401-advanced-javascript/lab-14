@@ -76,11 +76,19 @@ afterAll(stopDB);
 describe('auth.js require correct request headers', () => {
   it('throws error when the request header is missing', async () => {
     let response = await mockRequest
-      .get('signin')
+      .post('/signin')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
 
-    console.log(response);
+    expect(response.status).toBe(400);
+  });
+  it('throws error when the request header is missing', async () => {
+    let response = await mockRequest
+      .post('/signin')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', 'ifjaffn');
+
     expect(response.status).toBe(400);
   });
 });

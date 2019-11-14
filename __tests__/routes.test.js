@@ -3,7 +3,7 @@
 const { startDB, stopDB } = require('./supertester.js');
 const Users = require('../src/models/users-model.js');
 const Roles = require('../src/models/roles-model.js');
-const Books = require('../src/models/books-modle.js');
+const Books = require('../src/models/books-model.js');
 const server = require('../src/server.js').server;
 const supertester = require('./supertester.js');
 
