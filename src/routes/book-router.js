@@ -24,6 +24,7 @@ router.post('/books', auth, async (req, res, next) => {
   if (req.user.can('create') === true) {
     try {
       await books.create(req.body);
+      console.log('BOOCHEYR: ', await books.getFromField());
       res.status(200).json('You created a book!');
     } catch (e) {
       next({ status: 400, msg: e.name });
