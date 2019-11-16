@@ -8,6 +8,7 @@ const server = require('../src/server.js').server;
 const supertester = require('./supertester.js');
 
 const mockRequest = supertester.server(server);
+process.env.JWT_SECRET = 'test-secret';
 
 let users = {
   admin: {
@@ -104,33 +105,47 @@ describe('auth.js require correct request headers', () => {
     expect(response.body.error).toBe('Neither Basic nor Bearer request header');
   });
 });
-describe('auth.js is able to do BasicAuth', () => {
+describe('auth.js is able to do BasicAuth and BearerAuth', () => {
   let validBasicAuth =
     'Basic ' +
     Buffer.from(users.admin.username + ':' + users.admin.password).toString(
       'base64'
     );
 
-  let invalidBasicAuth =
-    'Basic ' +
-    Buffer.from(users.admin.username + ':' + users.admin.password).toString(
-      'base64'
-    );
-
   let newUserBasicAuth =
-    'Basic ' +
-    Buffer.from(users.admin.username + ':' + users.admin.password).toString(
-      'base64'
-    );
+    'Basic ' + Buffer.from('todd:toddpassword').toString('base64');
 
-  it('find a user when that user exists', async () => {
+  it('finds a user when that user exists', async () => {
     let response = await mockRequest
       .post('/signin')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('Authorization', 'wrong words');
+      .set('Authorization', validBasicAuth);
 
-    expect(response.status).toBe(400);
-    expect(response.body.error).toBe('Neither Basic nor Bearer request header');
+    expect(response.status).toBe(200);
+    expect(response.body.token).toBeDefined();
+  });
+  it('returns error when given bad string', async () => {
+    let response = await mockRequest
+      .post('/signin')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', validBasicAuth);
+    let bearerResponse = await mockRequest
+      .post('/signin')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', response.body.token);
+    expect(bearerResponse.status).toBe(200);
+  });
+  it('creates user when user does not exist', async () => {
+    let response = await mockRequest
+      .post('/signin')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', newUserBasicAuth);
+
+    expect(response.status).toBe(200);
+    expect(response.body.token).toBeDefined();
   });
 });
