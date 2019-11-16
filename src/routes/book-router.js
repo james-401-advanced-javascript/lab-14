@@ -59,6 +59,7 @@ router.put('/books/:id', auth, async (req, res, next) => {
 });
 
 router.patch('/books/:id', auth, async (req, res, next) => {
+  console.log('CAN WE?: ', req.user.can('update'));
   if (req.user.can('update') !== true)
     return next({ status: 403, msg: 'You cannot update books' });
 

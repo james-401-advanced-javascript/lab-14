@@ -52,7 +52,7 @@ users.methods.generateToken = function(timeout) {
   );
 };
 
-users.methods.can = async function(capability) {
+users.methods.can = function(capability) {
   // check user (this) > virtual_role > capabilities > if the parameter capability exists in the array
   console.log('CAPABILITIES: ', this.virtual_role.capabilities);
   return this.virtual_role.capabilities.includes(capability);
