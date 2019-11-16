@@ -62,6 +62,10 @@ users.pre('findOne', function() {
   this.populate('virtual_role');
 });
 
+users.pre('save', async function() {
+  this.password = await bcrypt.hash(this.password, 10);
+});
+
 /**
  * Exporting a mongoose model generated from the above schema, statics, methods and middleware
  * @type {mongoose model}

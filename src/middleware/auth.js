@@ -38,7 +38,6 @@ const basicDecode = async encoded => {
 const bearerDecrypt = async token => {
   try {
     let tokenData = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('TOKEN: ', tokenData);
     if (tokenData && tokenData.data && tokenData.data.id) {
       return await users.get(tokenData.data.id);
     }
@@ -53,7 +52,6 @@ module.exports = async (req, res, next) => {
       ? next()
       : next({ status: 400, msg: 'Missing request headers!' });
   }
-  console.log('HEADERS: ', req.headers);
   // Split up the header auth string based on space
   // ['Basic', ]
   let authSplitString = req.headers.authorization.split(/\s+/);
@@ -78,8 +76,6 @@ module.exports = async (req, res, next) => {
       ? next()
       : next({ status: 400, msg: 'Neither Basic nor Bearer request header' });
 
-  console.log('Returned user from decode/decrypt', user);
-  console.log('AUTH: ', req.authError);
   if (user) {
     req.user = user;
     req.token = user.generateToken(req.headers.timeout);

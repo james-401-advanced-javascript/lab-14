@@ -13,7 +13,6 @@ router.get(
   preventAuthErrors,
   auth,
   async (req, res, next) => {
-    console.log('PARAM: ', req.params);
     if (!req.model) next({ status: 404, msg: 'Cannot find requested model' });
 
     let records = await req.model.getFromField({});
@@ -24,7 +23,6 @@ router.get(
       count: recordCount,
     };
 
-    console.log('RESDATA: ', data);
 
     if (req.user && req.user.role === 'admin') data.records = records;
 

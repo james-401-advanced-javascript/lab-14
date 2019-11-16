@@ -82,6 +82,7 @@ describe('auth.js require correct request headers', () => {
 
     expect(response.status).toBe(400);
   });
+
   it('throws error when the request header is missing', async () => {
     let response = await mockRequest
       .post('/signin')
@@ -90,5 +91,46 @@ describe('auth.js require correct request headers', () => {
       .set('Authorization', 'ifjaffn');
 
     expect(response.status).toBe(400);
+  });
+
+  it('throws error when the request header is missing', async () => {
+    let response = await mockRequest
+      .post('/signin')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', 'wrong words');
+
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Neither Basic nor Bearer request header');
+  });
+});
+describe('auth.js is able to do BasicAuth', () => {
+  let validBasicAuth =
+    'Basic ' +
+    Buffer.from(users.admin.username + ':' + users.admin.password).toString(
+      'base64'
+    );
+
+  let invalidBasicAuth =
+    'Basic ' +
+    Buffer.from(users.admin.username + ':' + users.admin.password).toString(
+      'base64'
+    );
+
+  let newUserBasicAuth =
+    'Basic ' +
+    Buffer.from(users.admin.username + ':' + users.admin.password).toString(
+      'base64'
+    );
+
+  it('find a user when that user exists', async () => {
+    let response = await mockRequest
+      .post('/signin')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', 'wrong words');
+
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('Neither Basic nor Bearer request header');
   });
 });
