@@ -1,0 +1,28 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "commonjs": true,
+    "jest": true,
+    "es6": true,
+    "jquery": true
+  },
+  "globals": {
+    "fail": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018
+  },
+  "rules": {
+    "no-console": "off",
+    "indent": ["error", 2],
+    "require-atomic-updates": "off",
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    // Had to comment this out because the trailing comma would not work for client.js on lines 57 and 64
+    // "comma-dangle": ["error", "always-multiline"],
+    "semi": ["error", "always"],
+    "no-unused-vars": [1, { "vars": "local", "args": "none" }]
+  }
+}
