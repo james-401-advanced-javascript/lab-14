@@ -239,3 +239,50 @@ describe('books route works as expected', () => {
     expect(Object.values(bookResponse.body)[0]).toBe('Cannot find this book');
   });
 });
+describe('model-router works as expected', () => {
+  let adminBasicAuth =
+    'Basic ' + Buffer.from('sarah:sarahpassword').toString('base64');
+
+  it('does not work when model does not exist', async () => {
+    let response = await mockRequest
+      .get('/model')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', adminBasicAuth)
+      .send('model', null);
+
+    expect(response.status).toBe(400);
+  });
+  it('responds correctly with valid model', async () => {
+    let response = await mockRequest
+      .get('/model/books')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', adminBasicAuth);
+
+    expect(response.status).toBe(200);
+  });
+  it('responds correctly with valid model', async () => {
+    let newBook = new Books();
+    let bookToCheck = await newBook.getFromField();
+    let response = await mockRequest
+      .post('/signin')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', adminBasicAuth);
+
+    let bearerResponse = await mockRequest
+      .post('/signin')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', response.body.token);
+
+    let modelResponse = await mockRequest
+      .get(`/model/books/${bookToCheck[1]._id}`)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', bearerResponse.body.token);
+
+    expect(modelResponse.status).toBe(200);
+  });
+});

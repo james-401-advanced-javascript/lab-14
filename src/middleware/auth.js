@@ -42,6 +42,7 @@ const bearerDecrypt = async token => {
       return await users.get(tokenData.data.id);
     }
   } catch (e) {
+    console.error(e);
     return null;
   }
 };
@@ -66,6 +67,7 @@ module.exports = async (req, res, next) => {
   let authData = authSplitString[1];
 
   // Check which auth type we're dealing with
+
 
   let user;
 

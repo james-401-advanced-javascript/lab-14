@@ -54,14 +54,14 @@ const basicAuth = async e => {
     if (authResponse.status === 200) {
       sendMessage(
         `Successfully logged in and recieved token:\n${authData.token}`,
-        'green',
+        'green'
       );
 
       token = authData.token;
     } else
       sendMessage(
         `Received response:\n${authResponse.status} ${authData.error}`,
-        'red',
+        'red'
       );
   }
 };
@@ -162,7 +162,6 @@ const modelViewer = async e => {
 
   let path = '/model/' + model;
   if (id) path += '/' + id;
-
   let response = await fetch(path, {
     method: 'GET',
     headers: {
@@ -171,7 +170,6 @@ const modelViewer = async e => {
       Authorization: token,
     },
   });
-
   let data = await response.json();
 
   if (response.status === 200) {
