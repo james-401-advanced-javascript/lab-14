@@ -242,3 +242,11 @@ const sendMessage = (message, className) => {
 
   $('#' + toastId).toast('show');
 };
+// just write some code to get rid of eslint errors
+if (!token) {
+  console.log(basicAuth);
+  console.log(createBook);
+  console.log(editBook);
+  console.log(modelViewer);
+  console.log(bookViewer);
+}

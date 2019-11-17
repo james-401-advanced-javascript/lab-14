@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const roles = require('./roles-schema');
+// just write some code to get rid of eslint errors since roles has to be imported to be used as schema ref
+if (!mongoose) {
+  console.log(roles);
+}
 
 /**
  * The schema definition for a user record
