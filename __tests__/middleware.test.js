@@ -109,7 +109,7 @@ describe('auth.js is able to do BasicAuth and BearerAuth', () => {
   let validBasicAuth =
     'Basic ' +
     Buffer.from(users.admin.username + ':' + users.admin.password).toString(
-      'base64'
+      'base64',
     );
 
   let newUserBasicAuth =

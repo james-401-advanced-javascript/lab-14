@@ -20,7 +20,7 @@ const users = new mongoose.Schema(
     email: { type: String },
     role: { type: String, default: 'user', enum: ['admin', 'editor', 'user'] },
   },
-  { toObject: { virtuals: true }, toJSON: { virtuals: true } }
+  { toObject: { virtuals: true }, toJSON: { virtuals: true } },
 );
 
 users.virtual('virtual_role', {
@@ -52,7 +52,7 @@ users.methods.generateToken = function(timeout) {
       },
       exp: expiry,
     },
-    secret
+    secret,
   );
 };
 
